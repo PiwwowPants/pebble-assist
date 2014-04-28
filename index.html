@@ -4,29 +4,40 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Pebble Assist by smallstoneapps</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
-    <div class="wrapper">
+
       <header>
         <h1>Pebble Assist</h1>
         <p>A small collection of C macros that make developing Pebble apps a little simpler.</p>
-
-        <p class="view"><a href="https://github.com/smallstoneapps/pebble-assist">View the Project on GitHub <small>smallstoneapps/pebble-assist</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/smallstoneapps/pebble-assist/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/smallstoneapps/pebble-assist/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/smallstoneapps/pebble-assist">View On <strong>GitHub</strong></a></li>
-        </ul>
       </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/smallstoneapps/pebble-assist" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/smallstoneapps/pebble-assist/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/smallstoneapps/pebble-assist/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
       <section>
         <h1>
 <a name="pebble-assist" class="anchor" href="#pebble-assist"><span class="octicon octicon-link"></span></a>Pebble Assist</h1>
@@ -34,7 +45,20 @@
 <p>Pebble Assist is a small collection of <a href="http://gcc.gnu.org/onlinedocs/cpp/Macros.html">C macros</a> that make developing Pebble apps a little simpler.</p>
 
 <h2>
-<a name="logging" class="anchor" href="#logging"><span class="octicon octicon-link"></span></a>Logging</h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Download the contents of this repository, or clone it as a submodule or subtree. I recommend having a libs subfolder in your Pebble app's src folder.</p>
+
+<p>Include pebble-assist.h in your source code.</p>
+
+<div class="highlight highlight-c"><pre><span class="cp">#include "libs/pebble-assist/pebble-assist.h"</span>
+</pre></div>
+
+<h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a name="logging" class="anchor" href="#logging"><span class="octicon octicon-link"></span></a>Logging</h3>
 
 <p>Shorthand wrappers for using APP_LOG with the various levels of logs.</p>
 
@@ -42,8 +66,8 @@
 <span class="n">DEBUG</span><span class="p">(</span><span class="s">"Here is a logging message of value %d"</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
 </pre></div>
 
-<h2>
-<a name="layer-helpers" class="anchor" href="#layer-helpers"><span class="octicon octicon-link"></span></a>Layer Helpers</h2>
+<h3>
+<a name="layer-helpers" class="anchor" href="#layer-helpers"><span class="octicon octicon-link"></span></a>Layer Helpers</h3>
 
 <p>There are a number of macros for creating layers, and the various subtypes of layers. Below are some examples, check out the source code for the full list.</p>
 
@@ -68,8 +92,8 @@
 <span class="n">layer_hide</span><span class="p">(</span><span class="n">layer</span><span class="p">);</span>
 </pre></div>
 
-<h2>
-<a name="persistent-helpers" class="anchor" href="#persistent-helpers"><span class="octicon octicon-link"></span></a>Persistent Helpers</h2>
+<h3>
+<a name="persistent-helpers" class="anchor" href="#persistent-helpers"><span class="octicon octicon-link"></span></a>Persistent Helpers</h3>
 
 <p>Check that a persistent key exists before reading it, and returning a default value if it doesn't.</p>
 
@@ -77,8 +101,8 @@
 <span class="kt">int</span> <span class="n">number</span> <span class="o">=</span> <span class="n">persist_read_int_safe</span><span class="p">(</span><span class="n">KEY_NUMBER</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
 </pre></div>
 
-<h2>
-<a name="miscelleanous" class="anchor" href="#miscelleanous"><span class="octicon octicon-link"></span></a>Miscelleanous</h2>
+<h3>
+<a name="miscelleanous" class="anchor" href="#miscelleanous"><span class="octicon octicon-link"></span></a>Miscelleanous</h3>
 
 <div class="highlight highlight-c"><pre><span class="c1">// Checks that data is not NULL before attempting to free.</span>
 <span class="n">free_safe</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
@@ -93,11 +117,11 @@
 </pre></div>
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/smallstoneapps">smallstoneapps</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p>Project maintained by <a href="https://github.com/smallstoneapps">smallstoneapps</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
