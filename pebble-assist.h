@@ -7,19 +7,15 @@
 
 /**
 The MIT License (MIT)
-
 Copyright (c) 2013 Matthew Tole
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -72,15 +68,19 @@ static const bool SHOW_POINTERS = false;
 
 // Window Helpers
 #define window_destroy_safe(window) if (NULL != window) { if (SHOW_POINTERS) { DEBUG("Window Destroy Safe: %p", window); } window_destroy(window); window = NULL; }
+#define window_get_bounds(window) layer_get_bounds(window_get_root_layer(window))
 
+// Window Handlers
+#define window_handlers(window, value1, value2) window_set_window_handlers(window, (WindowHandlers) { .load = value1, .unload = value2 })
+  
 // Number Window Helpers
 #define number_window_destroy_safe(window) if (NULL != window) { if (SHOW_POINTERS) { DEBUG("Number Window Destroy Safe: %p", window); } number_window_destroy(window); window = NULL; }
 
 // Layer Helpers
 #define layer_create_fullscreen(window) layer_create(layer_get_bounds(window_get_root_layer(window)));
 #define layer_add_to_window(layer, window) layer_add_child(window_get_root_layer(window), layer)
-#define layer_show(layer) layer_set_hidden(layer, false)
-#define layer_hide(layer) layer_set_hidden(layer, true)
+#define layer_show(layer) layer_set_hidden((Layer *)layer, false)
+#define layer_hide(layer) layer_set_hidden((Layer *)layer, true)
 #define layer_destroy_safe(layer) if (NULL != layer) { if (SHOW_POINTERS) { DEBUG("Layer Destroy Safe: %p", layer); } layer_destroy(layer); layer = NULL; }
 
 // Scroll Layer Helpers
@@ -91,6 +91,7 @@ static const bool SHOW_POINTERS = false;
 // Text Layer Helpers
 #define text_layer_create_fullscreen(window) text_layer_create(layer_get_bounds(window_get_root_layer(window)));
 #define text_layer_add_to_window(layer, window) layer_add_child(window_get_root_layer(window), text_layer_get_layer(layer))
+#define text_layer_add_to_layer(layer, parent) layer_add_child(parent, text_layer_get_layer(layer))
 #define text_layer_set_system_font(layer, font) text_layer_set_font(layer, fonts_get_system_font(font))
 #define text_layer_set_colours(layer, foreground, background) text_layer_set_text_color(layer, foreground); text_layer_set_background_color(layer, background)
 #define text_layer_set_colors(layer, foreground, background) text_layer_set_text_color(layer, foreground); text_layer_set_background_color(layer, background)
@@ -99,7 +100,9 @@ static const bool SHOW_POINTERS = false;
 // Bitmap Layer Helpers
 #define bitmap_layer_create_fullscreen(window) bitmap_layer_create(layer_get_bounds(window_get_root_layer(window)));
 #define bitmap_layer_add_to_window(layer, window) layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(layer))
+#define bitmap_layer_add_to_layer(layer, parent) layer_add_child(parent, bitmap_layer_get_layer(layer))
 #define bitmap_layer_destroy_safe(layer) if (NULL != layer) { if (SHOW_POINTERS) { DEBUG("Bitmap Layer Destroy Safe: %p", layer); } bitmap_layer_destroy(layer); layer = NULL; }
+#define bitmap_layer_set_transparent(layer) bitmap_layer_set_compositing_mode(layer, GCompOpSet)
 
 // GBitmap
 #define gbitmap_destroy_safe(gbitmap) if (NULL != gbitmap) {if (SHOW_POINTERS) { DEBUG("GBitmap Destroy Safe: %p", gbitmap); } gbitmap_destroy(gbitmap); gbitmap = NULL; }
@@ -140,3 +143,9 @@ static const bool SHOW_POINTERS = false;
 // Persistence Helpers
 #define persist_read_int_safe(key, value) (persist_exists(key) ? persist_read_int(key) : value);
 #define persist_read_bool_safe(key, value) (persist_exists(key) ? persist_read_bool(key) : value);
+#define persist_read_data(key, value) persist_read_data(key, &value, sizeof(value))
+#define persist_write_data(key, value) persist_write_data(key, &value, sizeof(value))
+  
+// Print to buffers
+#define print_int(buffer, type, value) snprintf(buffer, sizeof(buffer), type, value)
+#define print_time(buffer, type, value) strftime(buffer, sizeof(buffer), type, value)
